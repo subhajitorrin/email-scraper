@@ -1,42 +1,55 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 
 const Popup = () => {
-  const [emails, setEmails] = useState<string[]>([
-    "test@example.com",
-    "hello@world.com",
-    "hello@world.com",
-    "hello@world.com",
-    "hello@world.com",
-    "hello@world.com",
-    "hello@world.com",
-    "hello@world.com",
-    "hello@world.com",
-    "hello@world.com",
-    "hello@world.com",
-    "hello@world.com",
-    "hello@world.com",
-    "hello@world.com",
-    "hello@world.com",
-    "hello@world.com",
-    "hello@world.com",
-    "hello@world.com",
-    "hello@world.com",
-    "hello@world.com",
-    "hello@world.com",
-    "hello@world.com",
-    "hello@world.com",
-    "hello@world.com",
-    "hello@world.com",
-    "hello@world.com"
-  ]);
+  const [emails, setEmails] = useState<string[]>([]);
+  const [toggleAllCopied, setToggleAllCopied] = useState(false);
+
   const handleCopyAll = () => {
     navigator.clipboard.writeText(emails.join("\n"));
+    setToggleAllCopied(true);
   };
 
+  useEffect(() => {
+    chrome.runtime.onMessage.addListener((message) => {
+      if (message.action === "setEmails") {
+        setEmails(message.emails);
+      }
+    });
+  }, []);
+
+  const extractEmails = () => {
+    const htmlContent = document.documentElement.outerHTML;
+    const emailRegex =
+      /\b[A-Za-z0-9._%+-]+@(gmail\.com|hotmail\.com|outlook\.com|yahoo\.com|icloud\.com|protonmail\.com|zoho\.com|aol\.com|yandex\.com|mail\.com|gmx\.com)\b/g;
+    let emails = htmlContent.match(emailRegex) || [];
+    chrome.runtime.sendMessage({ action: "setEmails", emails });
+  };
+
+  useEffect(() => {
+    const handleRunContentScript = () => {
+      chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+        if (tabs.length > 0) {
+          const tabId = tabs[0].id;
+          if (typeof tabId === "number") {
+            chrome.scripting.executeScript({
+              target: { tabId },
+              func: extractEmails
+            });
+          } else {
+            console.error("Tab ID is undefined");
+          }
+        } else {
+          console.error("No active tab found");
+        }
+      });
+    };
+    handleRunContentScript();
+  }, []);
+
   return (
-    <div className="flex flex-col relative w-[300px] h-[400px] bg-white shadow-lg rounded-lg">
+    <div className="rounded-lg flex flex-col relative w-[300px] h-[400px] bg-white shadow-lg rounded-lg">
       {/* Header */}
       <div className="mb-4 border-b pb-2 p-4">
         <h2 className="text-lg font-bold text-gray-700 text-center">
@@ -52,9 +65,9 @@ const Popup = () => {
               key={index}
               className="flex items-center justify-between border-b py-2"
             >
-              <span className="text-gray-600">{email}</span>
+              <span className="text-gray-600 text-sm font-medium">{email}</span>
               <button
-                className="text-sm text-blue-500 hover:underline"
+                className="text-sm text-blue-500 hover:text-blue-600"
                 onClick={() => {
                   navigator.clipboard.writeText(email);
                 }}
@@ -68,14 +81,14 @@ const Popup = () => {
         )}
       </div>
 
-      <div className=" w-full p-4">
+      <div className="w-full p-4">
         {emails.length > 0 && (
           <div className="mt-4">
             <button
               className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
               onClick={handleCopyAll}
             >
-              Copy All Emails
+              {toggleAllCopied ? "Copied All" : "Copy All Emails"}
             </button>
           </div>
         )}
@@ -83,7 +96,7 @@ const Popup = () => {
           Built with ❤️ |&nbsp;
           <p
             className="hover:underline cursor-pointer"
-            onClick={() => window.open("https://orrin.vercel.app", "_blank")}
+            onClick={() => window.open("https://x.com/subhajitorrin", "_blank")}
           >
             orrin
           </p>

@@ -1,1 +1,1 @@
-// Content Script
+// content_script.tsx

@@ -30,6 +30,12 @@ const Popup = () => {
     emails = emails.filter(
       (email: string) => !email.includes("%") && !email.includes("+")
     );
+    emails = emails.map((email: string) => {
+      if (email.startsWith("u003")) {
+        return email.slice(4);
+      }
+      return email;
+    });
     emails = emails.filter((email: string) => !email.startsWith("x22"));
 
     chrome.runtime.sendMessage({ action: "setEmails", emails });
@@ -57,7 +63,7 @@ const Popup = () => {
   }, []);
 
   return (
-    <div className="flex flex-col relative w-[300px] h-[400px] bg-white shadow-lg rounded-lg">
+    <div className="flex flex-col relative w-[330px] h-[400px] bg-white shadow-lg rounded-lg">
       {/* Header */}
       <div className="mb-4 border-b pb-2 p-4">
         <h2 className="text-lg font-bold text-gray-700 text-center">
@@ -73,7 +79,7 @@ const Popup = () => {
               key={index}
               className="flex items-center justify-between border-b py-2"
             >
-              <span className="text-gray-600 text-sm font-medium break-words max-w-[220px]">
+              <span className="text-gray-600 text-sm font-medium break-words max-w-[300px]">
                 {email}
               </span>
               <button

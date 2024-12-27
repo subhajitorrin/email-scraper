@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
-  "name": "Chrome Extension TypeScript Starter",
-  "description": "Chrome Extension, TypeScript, Visual Studio Code",
+  "name": "Email Scraper",
+  "description": "Scrap Emails from Webpages",
   "version": "1.0",
   "options_ui": {
     "page": "options.html"

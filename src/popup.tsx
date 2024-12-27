@@ -20,11 +20,18 @@ const Popup = () => {
     });
   }, []);
 
-  const extractEmails = () => {
-    const htmlContent = document.documentElement.outerHTML;
-    const emailRegex =
-      /\b[A-Za-z0-9._%+-]+@(gmail\.com|hotmail\.com|outlook\.com|yahoo\.com|icloud\.com|protonmail\.com|zoho\.com|aol\.com|yandex\.com|mail\.com|gmx\.com)\b/g;
-    let emails = htmlContent.match(emailRegex) || [];
+  const extractEmails = (): void => {
+    const htmlContent: string = document.documentElement.outerHTML;
+    const emailRegex: RegExp =
+      /\b[A-Za-z0-9._%+-]+@(gmail\.com|hotmail\.com|outlook\.com|yahoo\.com|icloud\.com|protonmail\.com|zoho\.com|aol\.com|yandex\.com|mail\.com|gmx\.com|automark\.io)\b/g;
+
+    let emails: string[] = htmlContent.match(emailRegex) || [];
+    emails = Array.from(new Set(emails));
+    emails = emails.filter(
+      (email: string) => !email.includes("%") && !email.includes("+")
+    );
+    emails=emails.filter((email: string) => !email.startsWith("x22"));
+
     chrome.runtime.sendMessage({ action: "setEmails", emails });
   };
 

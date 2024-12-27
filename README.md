@@ -1,45 +1,74 @@
-# create-t3-extension
+# Email Scraper Chrome Extension
 
-Chrome Extension: React + TypeScript + TailWind CSS
+A simple Chrome extension that scrapes all the email addresses present on the current webpage.
 
-## Prerequisites
+## Features
 
-- [node + npm](https://nodejs.org/) (Current Version)
+- Scrapes all email addresses from the current page
+- Displays the list of scraped emails in the extension popup
+- Easy-to-use interface
 
-## Includes the following
+## Installation
 
-- TypeScript
-- Webpack
+### Prerequisites
+
+- Google Chrome
+
+### Steps
+
+1. Clone the repository or download the project files.
+2. Build the project by "npm run build" (A dist folder will be created)
+3. Open Chrome and navigate to `chrome://extensions/`.
+4. Enable **Developer mode** at the top-right.
+5. Click **Load unpacked** and select the dist folder.
+6. The extension will be added to your Chrome toolbar.
+
+## Usage
+
+1. Click on the Email Scraper extension icon in the Chrome toolbar.
+2. The popup will display all email addresses found on the current webpage.
+3. You can copy the emails or save them as needed.
+
+## Technologies Used
+
 - React
-- Tailwind CSS
-- Jest
+- TailwindCSS
+- TypeScript
+- Chrome Extensions API
 
-## Project Structure
+## Development
 
-- src/typescript: TypeScript source files
-- src/assets: static files
-- dist: Chrome Extension directory
-- dist/js: Generated JavaScript files
+To run the project locally for development:
 
-## Setup
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/subhajitorrin/email-scraper
+   ```
+2. Navigate into the project directory:
+   ```bash
+   cd email-scraper
+   ```
+3. Install dependencies:
+   ```bash
+   npm install
+   ```
+4. Load the extension in Chrome as described above.
 
-```
-npm install
-```
+### Building for Production
 
-## Build
+1. After making changes to the code, run the following command to build the project:
+   ```bash
+   npm run build
+   ```
 
-```
-npm run build
-```
+## Contributing
 
-## Build in watch mode
+Feel free to fork the repository, submit issues, and create pull requests. Contributions are welcome!
 
-```
-npm run watch
-```
+## License
 
-## References
-[https://github.com/chibat/chrome-extension-typescript-starter](https://github.com/chibat/chrome-extension-typescript-starter)
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-[https://github.com/t3-oss/create-t3-app](https://github.com/t3-oss/create-t3-app)
+## Acknowledgements
+
+- Inspired by the need to automate the extraction of emails for various tasks.

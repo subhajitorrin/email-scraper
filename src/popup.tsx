@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
+import { MdContentCopy } from "react-icons/md";
 
 const Popup = () => {
   const [emails, setEmails] = useState<string[]>([]);
@@ -49,7 +50,7 @@ const Popup = () => {
   }, []);
 
   return (
-    <div className="rounded-lg flex flex-col relative w-[300px] h-[400px] bg-white shadow-lg rounded-lg">
+    <div className="flex flex-col relative w-[300px] h-[400px] bg-white shadow-lg rounded-lg">
       {/* Header */}
       <div className="mb-4 border-b pb-2 p-4">
         <h2 className="text-lg font-bold text-gray-700 text-center">
@@ -72,7 +73,7 @@ const Popup = () => {
                   navigator.clipboard.writeText(email);
                 }}
               >
-                Copy
+                <MdContentCopy className="w-4 h-4" />
               </button>
             </div>
           ))
@@ -85,7 +86,7 @@ const Popup = () => {
         {emails.length > 0 && (
           <div className="mt-4">
             <button
-              className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
+              className="w-full bg-blue-500 text-white font-medium py-2 rounded hover:bg-blue-600"
               onClick={handleCopyAll}
             >
               {toggleAllCopied ? "Copied All" : "Copy All Emails"}
